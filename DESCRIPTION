@@ -1,0 +1,32 @@
+Package: EOF
+Title: EOF routines for climate data.
+Version: 0.1
+Author: James McCreight <mccreigh@at@gmail.dot.com>
+Maintainer: James McCreight <mccreigh@at@gmail.dot.com>
+Description: A evolving tool for analysis of space-time variance.
+Depends: waveprac, maps
+License: MIT
+Collate: 
+	 'spaceTime.r'
+	 'center.discrete.r'
+	 'ggField.r'
+	 'subset.r'
+	 'anomaly.r'
+	 'corrCovarMtx.r'
+	 'EOF.class.r'
+	 'ggEOF.r'
+	 'unwrap.phase.r'
+	 'hilbert.r'
+	 'CEOF.r'
+	 'analyticFilter.r'
+	 'ggCEOF.r'
+	 'spectralEOF.r'
+	 'get.spectralEOF.by.mode.r'
+	 'ggSpectralEOF.r'
+	 'sequential_spectral_forecast.r'
+	 'corrMap.r'
+	 'ggCorrMap.r'
+	 'ccfMap.r'
+	 'ggCCFMap.r'
+	 'world.map.r'
+	 'EOF.r'
