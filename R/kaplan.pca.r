@@ -162,8 +162,9 @@ for (i in 1:3) time.comps$values.time[which(as.numeric(time.comps$modes)==i)] <-
 gg.eof.modes <-
   ggplot( eof.modes ) +
   geom_line( aes(x=POSIXct,y=value, color=modes, group=variable) ) +
-  geom_line( data=time.comps, aes(x=time,y=values.time), size=2) +
-  facet_wrap(~modes, ncol=1) + opts(title='EOF modes')
+  geom_line( data=time.comps, aes(x=time,y=values.time), size=1.3) +
+  facet_wrap(~modes, ncol=1) + opts(title='EOF modes') + ylim(-2.5,5)+
+  scale_x_datetime(major='10 years')
 print(gg.eof.modes)
       
 ## cluster the data in to 3 groups. the following discard the NA points in space.
@@ -185,8 +186,9 @@ clust.centers <- melt(clust.centers,id='POSIXct'); names(clust.centers)[2] <- 'c
 gg.clust <-
   ggplot( clust.frame ) +
   geom_line( aes(x=POSIXct,y=value, color=cluster, group=variable) ) +
-  geom_line( data=clust.centers, aes(x=POSIXct,y=value), size=2) +
-  facet_wrap( ~cluster, ncol=1 ) + opts(title='Clusters')
+  geom_line( data=clust.centers, aes(x=POSIXct,y=value), size=1.3) +
+  facet_wrap( ~cluster, ncol=1 ) + opts(title='Clusters')+ ylim(-2.5,5) +
+  scale_x_datetime(major='10 years')
 print(gg.clust)
 
 ## the cluster spatial pattern
@@ -194,7 +196,7 @@ clust.df <-  data.frame( value=factor(kclust$cluster), lon=ksst.jjas.pac.last@lo
                         lat=ksst.jjas.pac.last@lat[wh.keep] )
 gg.clust.sp <- ggplot( clust.df) + geom_tile( aes(x=lon,y=lat,fill=value) ) +
   world.map(posi=TRUE, lon=clust.df$lon, lat=clust.df$lat, buffer=15) +
-  opts(title='Cluster pattern')
+  opts(title='Cluster pattern') 
 
 pdf(w=11,h=8.5,file="hw2_cluster_1.pdf")
 nrow=4; ncol=3
