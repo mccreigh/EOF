@@ -116,7 +116,7 @@ ksst.jjas.pac@POSIXct <- evenPOSIXct( 111, origin=1900+7/12+1/24, dY=1 )
 ggField(ksst.jjas.pac, 1, buffer=20)
 
 ## take after 1975 only
-wh.last <- which( ksst.jjas.pac@POSIXct > 1975)
+wh.last <- which( format(ksst.jjas.pac@POSIXct,'%Y') > 1975)
 ksst.jjas.pac.last <- subset(ksst.jjas.pac, wh.last, dim='time')
 
 ## correlation based EOF 
@@ -170,6 +170,10 @@ print(gg.eof.modes)
 ## cluster the data in to 3 groups. the following discard the NA points in space.
 wh.keep <- eof.corr.ksst.jjas.pac.last@mtx@A@wh.keep
 good.data <- ksst.jjas.pac.last@data[wh.keep,]
+pdf(file='~/methods/cluster_lecture/trop_pac_JJAS_sst_1976-2010_wss_vs_k.pdf')
+kink.wss( good.data, max=10 ) ## 3 clusters looking good!
+dev.off()
+
 kclust <- kmeans( good.data , 3 )  ## actually cluster.
 clust.frame <- as.data.frame(t(good.data))  ## transform data
 names(clust.frame) <- 1:length(clust.frame)  ## will use to map the clusters onto the data
@@ -181,6 +185,8 @@ clust.frame$cluster <-
 clust.centers <- as.data.frame(t(kclust$centers)) ## we'll plot the centroids as well.
 names(clust.centers) <- paste("Clust.",1:3,sep='')
 clust.centers$POSIXct <- eof.corr.ksst.jjas.pac.last@POSIXct
+save(clust.centers, ## exporting them for forecasting/regression purposes... 
+     file='~/methods/cluster_lecture/trop_pac_JJAS_sst_1976-2010_cluster_centers.rsav')
 clust.centers <- melt(clust.centers,id='POSIXct'); names(clust.centers)[2] <- 'cluster'
 
 gg.clust <-
@@ -192,13 +198,14 @@ gg.clust <-
 print(gg.clust)
 
 ## the cluster spatial pattern
-clust.df <-  data.frame( value=factor(kclust$cluster), lon=ksst.jjas.pac.last@lon[wh.keep],
+clust.df <-  data.frame( value=factor(kclust$cluster),
+                        lon=ksst.jjas.pac.last@lon[wh.keep],
                         lat=ksst.jjas.pac.last@lat[wh.keep] )
 gg.clust.sp <- ggplot( clust.df) + geom_tile( aes(x=lon,y=lat,fill=value) ) +
   world.map(posi=TRUE, lon=clust.df$lon, lat=clust.df$lat, buffer=15) +
   opts(title='Cluster pattern') 
 
-pdf(w=11,h=8.5,file="hw2_cluster_1.pdf")
+pdf(w=11,h=8.5,file="~/methods/cluster_lecture/hw2_cluster_1.pdf")
 nrow=4; ncol=3
 grid.newpage()
 pushViewport(viewport(layout=grid.layout(nrow,ncol)))
@@ -208,3 +215,4 @@ print(gg.clust, vp=vplayout(1:4, 2) )
 print(gg.eof.sp, vp=vplayout(1:3, 3) )
 print(gg.clust.sp, vp=vplayout(4, 3) )
 dev.off()
+
