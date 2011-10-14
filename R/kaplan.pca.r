@@ -31,7 +31,11 @@ if (FALSE) {
   
 } 
 
-load("~/R/jlm_lib/EOF/data/kaplan_sst.rsav") ## load the data from the EOF "package"
+##load("~/R/jlm_lib/EOF/data/kaplan_sst.rsav") ## load the data from the EOF "package" ## this was my save command.... 
+
+## the data should be loaded if you did
+## load_data('EOF') ## otherwise do it again.
+
 ## keep only 1900-last
 wh.keep <- which( format(time.kaplan,'%Y') >= 1900 )
 kaplan <- kaplan[, c(1,2,wh.keep+2)]
