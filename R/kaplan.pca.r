@@ -186,7 +186,7 @@ clust.centers <- as.data.frame(t(kclust$centers)) ## we'll plot the centroids as
 names(clust.centers) <- paste("Clust.",1:3,sep='')
 clust.centers$POSIXct <- eof.corr.ksst.jjas.pac.last@POSIXct
 save(clust.centers, ## exporting them for forecasting/regression purposes... 
-     file='~/methods/cluster_lecture/trop_pac_JJAS_sst_1976-2010_cluster_centers.rsav')
+     file='~/methods/cluster_lecture/trop_pac_JJAS_sst_1976-2010_cluster_centers.rda')
 clust.centers <- melt(clust.centers,id='POSIXct'); names(clust.centers)[2] <- 'cluster'
 
 gg.clust <-
